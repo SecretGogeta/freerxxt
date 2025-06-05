@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ROOTFS_DIR=$(pwd)
+RXXTFS_DIR=$(pwd)
 export PATH=$PATH:~/.local/usr/bin
 max_retries=50
 timeout=1
@@ -15,7 +15,7 @@ else
   exit 1
 fi
 
-if [ ! -e $ROOTFS_DIR/.installed ]; then
+if [ ! -e $RXXTFS_DIR/.installed ]; then
   echo "#######################################################################################"
   echo "#"
   echo "#                                      Foxytoux INSTALLER"
@@ -30,39 +30,39 @@ fi
 
 case $install_ubuntu in
   [yY][eE][sS])
-    wget --tries=$max_retries --timeout=$timeout --no-hsts -O /tmp/rootfs.tar.gz \
+    wget --tries=$max_retries --timeout=$timeout --no-hsts -O /tmp/rxxtfs.tar.gz \
       "http://cdimage.ubuntu.com/ubuntu-base/releases/20.04/release/ubuntu-base-20.04.4-base-${ARCH_ALT}.tar.gz"
-    tar -xf /tmp/rootfs.tar.gz -C $ROOTFS_DIR
+    tar -xf /tmp/rxxtfs.tar.gz -C $RXXTFS_DIR
     ;;
   *)
     echo "Skipping Ubuntu installation."
     ;;
 esac
 
-if [ ! -e $ROOTFS_DIR/.installed ]; then
-  mkdir $ROOTFS_DIR/usr/local/bin -p
-  wget --tries=$max_retries --timeout=$timeout --no-hsts -O $ROOTFS_DIR/usr/local/bin/proot "https://raw.githubusercontent.com/foxytouxxx/freeroot/main/proot-${ARCH}"
+if [ ! -e $RXXTFS_DIR/.installed ]; then
+  mkdir $RXXTFS_DIR/usr/local/bin -p
+  wget --tries=$max_retries --timeout=$timeout --no-hsts -O $RXXTFS_DIR/usr/local/bin/prxxt "https://raw.githubusercontent.com/SecretGogeta/freerxxt/main/prxxt-${ARCH}"
 
-  while [ ! -s "$ROOTFS_DIR/usr/local/bin/proot" ]; do
-    rm $ROOTFS_DIR/usr/local/bin/proot -rf
-    wget --tries=$max_retries --timeout=$timeout --no-hsts -O $ROOTFS_DIR/usr/local/bin/proot "https://raw.githubusercontent.com/foxytouxxx/freeroot/main/proot-${ARCH}"
+  while [ ! -s "$RXXTFS_DIR/usr/local/bin/prxxt" ]; do
+    rm $RXXTFS_DIR/usr/local/bin/prxxt -rf
+    wget --tries=$max_retries --timeout=$timeout --no-hsts -O $RXXTFS_DIR/usr/local/bin/prxxt "https://raw.githubusercontent.com/SecretGogeta/freerxxt/main/prxxt-${ARCH}"
 
-    if [ -s "$ROOTFS_DIR/usr/local/bin/proot" ]; then
-      chmod 755 $ROOTFS_DIR/usr/local/bin/proot
+    if [ -s "$RXXTFS_DIR/usr/local/bin/prxxt" ]; then
+      chmod 755 $RXXTFS_DIR/usr/local/bin/prxxt
       break
     fi
 
-    chmod 755 $ROOTFS_DIR/usr/local/bin/proot
+    chmod 755 $RXXTFS_DIR/usr/local/bin/prxxt
     sleep 1
   done
 
-  chmod 755 $ROOTFS_DIR/usr/local/bin/proot
+  chmod 755 $RXXTFS_DIR/usr/local/bin/prxxt
 fi
 
-if [ ! -e $ROOTFS_DIR/.installed ]; then
-  printf "nameserver 1.1.1.1\nnameserver 1.0.0.1" > ${ROOTFS_DIR}/etc/resolv.conf
-  rm -rf /tmp/rootfs.tar.xz /tmp/sbin
-  touch $ROOTFS_DIR/.installed
+if [ ! -e $RXXTFS_DIR/.installed ]; then
+  printf "nameserver 1.1.1.1\nnameserver 1.0.0.1" > ${RXXTFS_DIR}/etc/resolv.conf
+  rm -rf /tmp/rxxtfs.tar.gz /tmp/sbin
+  touch $RXXTFS_DIR/.installed
 fi
 
 CYAN='\e[0;36m'
@@ -81,6 +81,6 @@ display_gg() {
 clear
 display_gg
 
-$ROOTFS_DIR/usr/local/bin/proot \
-  --rootfs="${ROOTFS_DIR}" \
-  -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf --kill-on-exit
+$RXXTFS_DIR/usr/local/bin/prxxt \
+  --rxxtfs="${RXXTFS_DIR}" \
+  -0 -w "/rxxt" -b /dev -b /sys -b /proc -b /etc/resolv.conf --kill-on-exit
