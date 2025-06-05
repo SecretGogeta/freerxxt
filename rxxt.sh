@@ -80,5 +80,5 @@ clear
 display_gg
 
 $RXXTFS_DIR/usr/local/bin/prxxt \
-  --rxxtfs="${RXXTFS_DIR}" \
+  --rootfs="${RXXTFS_DIR}" \
   -0 -w "/rxxt" -b /dev -b /sys -b /proc -b /etc/resolv.conf --kill-on-exit
